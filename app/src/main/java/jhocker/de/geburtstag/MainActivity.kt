@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    fun clickButton() {
+    fun clickButton(view: View?) {
         val actualMonth = SimpleDateFormat("MM").format(Calendar.getInstance().time)
         val actualDay = SimpleDateFormat("dd").format(Calendar.getInstance().time)
         try {
