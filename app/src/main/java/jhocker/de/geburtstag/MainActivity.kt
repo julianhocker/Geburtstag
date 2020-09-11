@@ -24,7 +24,9 @@ class MainActivity : AppCompatActivity() {
             //myDatabase.execSQL("INSERT INTO dates (name, day, month) VALUES ('Alex',27,09)");
             //myDatabase.execSQL("INSERT INTO dates (name, day, month) VALUES ('Alisa',18,04)");
         } catch (e: Exception) {
-            assert(e != null)
+            if (BuildConfig.DEBUG && e == null) {
+                error("Assertion failed")
+            }
             e.printStackTrace()
         }
 
@@ -42,7 +44,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    fun clickButton(view: View?) {
+    fun clickButton() {
         val actualMonth = SimpleDateFormat("MM").format(Calendar.getInstance().time)
         val actualDay = SimpleDateFormat("dd").format(Calendar.getInstance().time)
         try {
@@ -51,7 +53,6 @@ class MainActivity : AppCompatActivity() {
             val nameIndex = c.getColumnIndex("name")
             val monthIndex = c.getColumnIndex("month")
             val dayIndex = c.getColumnIndex("day")
-            val idIndex = c.getColumnIndex("id")
             if (c.moveToFirst()) {
                 do {
                     val name = c.getString(nameIndex)
@@ -72,19 +73,8 @@ class MainActivity : AppCompatActivity() {
         val dateinput = findViewById<DatePicker>(R.id.datePicker1)
         val monthinput = dateinput.month +1
         val dayinput = dateinput.dayOfMonth
-        println(monthinput)
-        println(dayinput)
-
-        /*val fielddateinput = findViewById<View>(R.id.editText) as EditText
-        val dateinput = fielddateinput.text.toString()
-        val monthinput = dateinput.subSequence(3,5).toString()
-        val dayinput = dateinput.subSequence(0,2).toString()
-        //println(monthinput)
-        //println(dateinput)*/
         val fieldnameinput = findViewById<View>(R.id.editText2) as EditText
         val nameinput = fieldnameinput.text.toString()
-
-
         try {
             val myDatabase = this.openOrCreateDatabase("birthday", Context.MODE_PRIVATE, null)
             myDatabase.execSQL("INSERT INTO dates (name, day, month) VALUES ('$nameinput', $dayinput, $monthinput)") //TODO add the values given before
